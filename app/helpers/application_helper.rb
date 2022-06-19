@@ -2,7 +2,7 @@ module ApplicationHelper
   def flash_classes(flash_type)
     flash_base = "px-2 py-4 mx-auto font-sans font-medium text-center text-white"
     {
-      notice: "bg-indigo-600 #{flash_base}",
+      notice: "bg-sky-500 #{flash_base}",
       error:  "bg-red-600 #{flash_base}",
       alert: "bg-red-600 #{flash_base}"
     }.stringify_keys[flash_type.to_s] || flash_type.to_s
@@ -45,7 +45,7 @@ module ApplicationHelper
 
     case theme
     when themes[:primary]
-      "bg-indigo-600 hover:bg-indigo-700 text-white"
+      "bg-sky-500 hover:bg-sky-600 text-white"
     when themes[:secondary]
       "bg-teal-600 hover:bg-teal-700 text-white"
     when themes[:transparent]
@@ -69,6 +69,25 @@ module ApplicationHelper
       "p-3 w-full block #{base} #{theme}"
     else
       "px-5 py-2 text-base #{base} #{theme}"
+    end
+  end
+
+  def profile_image(user, options={})
+    size = case options[:size]
+    when "large"
+      "w-20 h-20"
+    when "small"
+      "w-10 h-10"
+    else
+      "w-14 h-14"
+    end
+
+    classes = "#{size} flex-skrink-0 rounded-full border-2 border-white"
+
+    if user.profile_image.attached?
+      image_tag user.profile_image, class: classes
+    else
+      image_tag "https://doodleipsum.com/700/avatar-5?bg=3D27F6&i=f339578a64040310d3eb5bd82b550627", class: classes
     end
   end
 end

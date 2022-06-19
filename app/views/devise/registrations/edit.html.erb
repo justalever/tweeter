@@ -2,10 +2,19 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }, data: { turbo: false }) do |f| %>
 
     <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="mb-6">
+      <%= f.label :profile_image, class: label_class %>
+      <%= f.file_field :profile_image, class: "block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 file:rounded-full" %>
+    </div>
 
     <div class="mb-6">
       <%= f.label :name, class: label_class %>
       <%= f.text_field :name, class: input_class %>
+    </div>
+
+    <div class="mb-6">
+      <%= f.label :username, class: label_class %>
+      <%= f.text_field :username, class: input_class %>
     </div>
 
     <div class="mb-6">

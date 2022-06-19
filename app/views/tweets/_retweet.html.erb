@@ -1,0 +1,19 @@
+<div class="px-6 py-3 border-b" id="<%= dom_id(tweet) %>">
+  <div class="flex items-center mb-3 space-x-2">
+    <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4 h-4 fill-current"><g><path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z"></path></g></svg>
+    <p class="text-sm font-medium">Retweeted by <%= "@" + tweet.user.username %></p>
+  </div>
+  <div class="flex space-x-3 items-start">
+    <div class="flex-shrink-0">
+      <%= profile_image(tweet.tweet.user) %>
+    </div>
+    <div class="flex-1">
+      <p class="font-bold"><%= link_to tweet.tweet.user.name, profile_path(tweet.tweet.user), class: "hover:underline", data: {turbo: false} %></p>
+      <%= link_to tweet, data: { turbo: false } do %>
+        <div class="prose prose-lg"><%= tweet.tweet.body %></div>
+      <% end %>
+
+      <%= render "tweets/controls", tweet: tweet.tweet %>
+    </div>
+  </div>
+</div>

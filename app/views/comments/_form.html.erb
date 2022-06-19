@@ -1,0 +1,11 @@
+<%= form_with model: [tweet, @comment], data: {controller: "reset-form", action: "turbo:submit-end->reset-form#reset" } do |form| %>
+  <p class="pt-3">Replying to <%= link_to tweet.user.name, profile_path(tweet.user), class: "text-sky-500 hover:text-sky-600" %></p>
+  <div class="flex items-start justify-between space-x-3 py-6 border-b">
+    <%= profile_image(current_user) %>
+    <div class="flex-1">
+      <%= form.label :body, class: "sr-only" %>
+      <%= form.text_area :body, class: "border-none w- full resize-none rounded-md focus:shadow-none focus:border-none ring-0 focus:ring-0 focus:outline-none text-lg py-3 px-0 h-full min-h-[100px]", placeholder: "Tweet your reply" %>
+    </div>
+    <%= form.submit "Reply", class: "px-6 py-2 bg-sky-400 text-white font-semibold rounded-full text-center cursor-pointer inline-block hover:bg-sky-500 transition ease-in-out duration-300"%>
+  </div>
+<% end %>

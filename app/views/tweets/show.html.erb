@@ -1,0 +1,54 @@
+<div class="p-6">
+  <div class="flex items-center space-x-3">
+    <%= link_to root_path, class: "rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-100 duration-300 transition-all" do %>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current text-gray-800 w-5 h-5"><g><path d="M20 11H7.414l4.293-4.293c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0l-6 6c-.39.39-.39 1.023 0 1.414l6 6c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L7.414 13H20c.553 0 1-.447 1-1s-.447-1-1-1z"></path></g></svg>
+    <% end %>
+    <h1 class="font-bold text-2xl">Tweet</h1>
+  </div>
+</div>
+
+<div class="p-6">
+  <div class="flex items-start justify-between space-x-3">
+    <%= profile_image(@tweet.user) %>
+    <div class="flex-1">
+      <h1 class="font-bold">
+        <%= link_to @tweet.user.name, profile_path(@tweet.user) %>
+      </h1>
+      <p class="text-gray-700"><%= "@" + @tweet.user.username %></p>
+    </div>
+  </div>
+  <div class="prose prose-2xl text-gray-900 my-3">
+    <% if @tweet.tweet_id? %>
+      <%= @tweet.tweet.body %>
+    <% else%>
+      <%= @tweet.body %>
+    <% end %>
+  </div>
+
+  <ul class="py-3 border-t text-gray-700 flex space-x-4 text-sm">
+    <li>
+      <span class="font-semibold text-gray-800"><%= Tweet.where(tweet_id: @tweet).size %></span> Retweets
+    </li>
+    <li>
+      <span class="font-semibold text-gray-800"><%= @tweet.likes.size %></span> Likes
+    </li>
+  </ul>
+
+  <div class="py-2 border-y px-4 justify-center flex">
+    <%= render "tweets/controls", tweet: @tweet %>
+  </div>
+
+  <% if user_signed_in? %>
+    <%= turbo_frame_tag "#{dom_id(@tweet)}_comment_form" do %>
+      <%= render "comments/form", tweet: @tweet %>
+    <% end %>
+  <% else %>
+    <p class="mt-6 text-center text-lg"><%= link_to "Sign in", new_user_session_path, class: "text-sky-500 hover:text-sky-600 font-medium" %></p>
+  <% end %>
+
+  <%= turbo_frame_tag "#{dom_id(@tweet)}_comments" do %>
+    <% @comments.each do |comment| %>
+      <%= render "comments/comment", comment: comment %>
+    <% end %>
+  <% end %>
+</div>

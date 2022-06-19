@@ -1,0 +1,7 @@
+<%= turbo_stream.prepend "tweets" do %>
+  <%= render "tweet", tweet: @tweet %>
+<% end %>
+
+<%= turbo_stream.remove Tweet.new do %>
+  <%= render "tweets/empty" %>
+<% end %>

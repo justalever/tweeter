@@ -1,0 +1,36 @@
+<ul class="-ml-3 flex space-x-14 items-start justify-start list-none">
+  <li>
+    <%= link_to tweet, class: "text-gray-500 space-x-2 group flex items-center justify-center", data: { turbo: false } do %>
+      <div class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-sky-50">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 fill-current group-hover:text-sky-500"><g><path d="M14.046 2.242l-4.148-.01h-.002c-4.374 0-7.8 3.427-7.8 7.802 0 4.098 3.186 7.206 7.465 7.37v3.828c0 .108.044.286.12.403.142.225.384.347.632.347.138 0 .277-.038.402-.118.264-.168 6.473-4.14 8.088-5.506 1.902-1.61 3.04-3.97 3.043-6.312v-.017c-.006-4.367-3.43-7.787-7.8-7.788zm3.787 12.972c-1.134.96-4.862 3.405-6.772 4.643V16.67c0-.414-.335-.75-.75-.75h-.396c-3.66 0-6.318-2.476-6.318-5.886 0-3.534 2.768-6.302 6.3-6.302l4.147.01h.002c3.532 0 6.3 2.766 6.302 6.296-.003 1.91-.942 3.844-2.514 5.176z"></path></g></svg>
+      </div>
+      <%= turbo_frame_tag "#{dom_id(tweet)}_comments_count" do %>
+        <%= render "tweets/comments_count", tweet: tweet %>
+      <% end %>
+    <% end %>
+  </li>
+  <% if user_signed_in? && tweet.user_id != current_user.id %>
+    <li>
+      <%= button_to retweet_tweet_path(tweet), method: :post, class:"text-gray-500 space-x-2 group flex items-center justify-center" do %>
+        <div class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-50">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 fill-current group-hover:text-green-500"><g><path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z"></path></g></svg>
+        </div>
+        <span class="group-hover:text-green-500 text-gray-500"><%= Tweet.where(tweet_id: @tweet).size %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <li>
+    <%= content_tag :div, class: "#{dom_id(tweet)}_likes" do %>
+      <%= render "likes/likes", likeable: tweet %>
+    <% end %>
+  </li>
+  <% if user_signed_in? && current_user == tweet.user %>
+    <li>
+      <%= button_to tweet_path(tweet), method: :delete, form: { data: { turbo_confirm: "Are you sure?" }}, class:"text-gray-500 space-x-2 group flex items-center justify-center" do %>
+        <div class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-50">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="fill-current text-gray-500 group-hover:text-rose-500 w-5 h-5"><g><path d="M20.746 5.236h-3.75V4.25c0-1.24-1.01-2.25-2.25-2.25h-5.5c-1.24 0-2.25 1.01-2.25 2.25v.986h-3.75c-.414 0-.75.336-.75.75s.336.75.75.75h.368l1.583 13.262c.216 1.193 1.31 2.027 2.658 2.027h8.282c1.35 0 2.442-.834 2.664-2.072l1.577-13.217h.368c.414 0 .75-.336.75-.75s-.335-.75-.75-.75zM8.496 4.25c0-.413.337-.75.75-.75h5.5c.413 0 .75.337.75.75v.986h-7V4.25zm8.822 15.48c-.1.55-.664.795-1.18.795H7.854c-.517 0-1.083-.246-1.175-.75L5.126 6.735h13.74L17.32 19.732z"></path><path d="M10 17.75c.414 0 .75-.336.75-.75v-7c0-.414-.336-.75-.75-.75s-.75.336-.75.75v7c0 .414.336.75.75.75zm4 0c.414 0 .75-.336.75-.75v-7c0-.414-.336-.75-.75-.75s-.75.336-.75.75v7c0 .414.336.75.75.75z"></path></g></svg>
+        </div>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

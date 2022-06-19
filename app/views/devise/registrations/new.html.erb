@@ -8,6 +8,11 @@
     </div>
 
     <div class="mb-6">
+      <%= f.label :username, class: label_class %>
+      <%= f.text_field :username, class: input_class %>
+    </div>
+
+    <div class="mb-6">
       <%= f.label :email, class: label_class %>
       <%= f.email_field :email, autocomplete: "email", class: input_class %>
     </div>
